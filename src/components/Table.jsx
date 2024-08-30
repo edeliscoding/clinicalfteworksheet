@@ -1,0 +1,254 @@
+import React from "react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+
+const ClinicalWorkTable = () => {
+  return (
+    <div className="w-full max-w-7xl container p-4">
+      <div className="text-center mb-4 font-bold underline text-2xl">
+        Doe, John Smith
+      </div>
+      <Table>
+        {/* <TableCaption>ATWOOD,ALEXANDRA CARRICK</TableCaption> */}
+        <TableHeader>
+          <TableRow>
+            <TableHead>Clinical Work Description</TableHead>
+            <TableHead>Parameters</TableHead>
+            <TableHead>Multiplier Definition</TableHead>
+            <TableHead>Multiplier (Numeric Only)</TableHead>
+            <TableHead>cFTE Value</TableHead>
+            <TableHead>Total cFTE (Multiplier x Rate)</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan={6} className="font-bold text-center">
+              BILLABLE cFTE UNITS
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Outpatient Face-to-Face Clinic Sessions
+              <br />
+              <span className="text-sm">(New and Return Patients)</span>
+            </TableCell>
+            <TableCell>
+              4-hour session
+              <br />
+              12 wRVU*
+              <br />
+              ~3-4 NPV/-6-8 RPV
+            </TableCell>
+            <TableCell>
+              Number of total sessions per academic year
+              <br />
+              45 sessions per year x # of planned half-day sessions per week
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.0022</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Synchronous Procedure Session
+              <br />
+              <span className="text-sm">
+                (Procedures performed with patient present on templated clinic
+                time: EMG/NCS, Biopsy, LP, Injections, device programming)
+              </span>
+            </TableCell>
+            <TableCell>
+              4-hour session
+              <br />
+              12 wRVU*
+              <br />
+              ~3 EMG/NCS; ~6 LPs; ~8 injections; ~8 30-min DBS programming
+            </TableCell>
+            <TableCell>
+              Number of total sessions per academic year
+              <br />
+              45 sessions per year x # of planned half-day sessions per week
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.0022</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Asynchronous Procedure Session
+              <br />
+              <span className="text-sm">
+                (Procedure performed without patient present and/or without
+                templated clinic time: Study/test interpretation, inpatient
+                test)
+              </span>
+            </TableCell>
+            <TableCell>
+              Equivalent of 4-hour session
+              <br />
+              12 wRVU*
+              <br />
+              1 intraoperative monitoring session
+              <br />
+              ~5-6 PSG or vEEG interpretations
+            </TableCell>
+            <TableCell>Number of total sessions per academic year</TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.0022</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>eConsult Session</TableCell>
+            <TableCell>
+              Equivalent of 4-hour session
+              <br />
+              12 wRVU*
+              <br />
+              ~17 eConsults
+            </TableCell>
+            <TableCell>Number of total sessions per academic year</TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.0022</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={5} className="text-right font-bold">
+              Total Billable cFTE
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell colSpan={6} className="font-bold text-center">
+              NON-BILLABLE cFTE UNITS
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Outpatient Non-Face-to-Face Clinic Follow-Up Care
+              <br />
+              <span className="text-sm">
+                (Following up results, speaking to family, phone calls/MHC
+                messages associated with Outpatient F2F Clinic Sessions)
+              </span>
+            </TableCell>
+            <TableCell>
+              2-hour session for each Outpatient F2F Clinic 4-hour session
+            </TableCell>
+            <TableCell>Number of sessions per academic year</TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.001</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Section Clinical Service
+              <br />
+              <span className="text-sm">
+                (Section DocLine, covering section members out of office,
+                Internal Curbsides, Section "Doc of Week")
+              </span>
+            </TableCell>
+            <TableCell>One week (M-F, 7a-8p)</TableCell>
+            <TableCell>Number of weeks per academic year</TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.005</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Required Clinical Meetings for Patient Care
+              <br />
+              <span className="text-sm">
+                (Tumor Board, Consensus Conferences, Surgical Review)
+              </span>
+            </TableCell>
+            <TableCell>1-hour meeting session</TableCell>
+            <TableCell>Number of sessions per academic year</TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.0005</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Supervising Trainee/APP Clinics</TableCell>
+            <TableCell>
+              4-hour F2F + 2-hour follow-up care/ patient support
+            </TableCell>
+            <TableCell>Number of sessions per academic year</TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+            <TableCell>0.003</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={5} className="text-right font-bold">
+              Total Non-Billable cFTE
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={5} className="text-right font-bold">
+              Total Outpatient Clinical FTE
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={5} className="text-right font-bold">
+              Total Research FTE
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={5} className="text-right font-bold">
+              Total Admin FTE
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={5} className="text-right font-bold">
+              TOTAL FACULTY FTE
+            </TableCell>
+            <TableCell>
+              <Input type="number" />
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
+
+export default ClinicalWorkTable;
