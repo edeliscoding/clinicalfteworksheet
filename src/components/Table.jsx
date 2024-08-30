@@ -166,7 +166,7 @@ const ClinicalWorkTable = () => {
               <br />
               <span className="text-sm">
                 (Section DocLine, covering section members out of office,
-                Internal Curbsides, Section "Doc of Week")
+                Internal Curbsides, Section &quot;Doc of Week&quot;)
               </span>
             </TableCell>
             <TableCell>One week (M-F, 7a-8p)</TableCell>
