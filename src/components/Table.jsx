@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -11,6 +12,30 @@ import {
 import { Input } from "@/components/ui/input";
 
 const ClinicalWorkTable = () => {
+  const [billableItems, setBillableItems] = useState([
+    { id: "outpatient", multiplier: 0, cFTEValue: 0.0022, total: 0 },
+    { id: "synchronous", multiplier: 0, cFTEValue: 0.0022, total: 0 },
+    { id: "asynchronous", multiplier: 0, cFTEValue: 0.0022, total: 0 },
+    { id: "eConsult", multiplier: 0, cFTEValue: 0.0022, total: 0 },
+  ]);
+
+  const [totalBillableCFTE, setTotalBillableCFTE] = useState(0);
+
+  const handleMultiplierChange = (id, value) => {
+    setBillableItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? { ...item, multiplier: value, total: value * item.cFTEValue }
+          : item
+      )
+    );
+  };
+
+  useEffect(() => {
+    const newTotal = billableItems.reduce((sum, item) => sum + item.total, 0);
+    setTotalBillableCFTE(newTotal);
+  }, [billableItems]);
+
   return (
     <div className="w-full max-w-7xl container p-4">
       <div className="text-center mb-4 font-bold underline text-2xl">
@@ -53,10 +78,19 @@ const ClinicalWorkTable = () => {
               45 sessions per year x # of planned half-day sessions per week
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={billableItems[0].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChange("outpatient", Number(e.target.value))
+                }
+              />
             </TableCell>
-            <TableCell>0.0022</TableCell>
-            <TableCell></TableCell>
+            {/* <TableCell>0.0022</TableCell>
+            <TableCell></TableCell> */}
+            <TableCell>{billableItems[0].cFTEValue}</TableCell>
+            <TableCell>{billableItems[0].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
@@ -80,10 +114,19 @@ const ClinicalWorkTable = () => {
               45 sessions per year x # of planned half-day sessions per week
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={billableItems[1].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChange("synchronous", Number(e.target.value))
+                }
+              />
             </TableCell>
-            <TableCell>0.0022</TableCell>
-            <TableCell></TableCell>
+            {/* <TableCell>0.0022</TableCell>
+            <TableCell></TableCell> */}
+            <TableCell>{billableItems[1].cFTEValue}</TableCell>
+            <TableCell>{billableItems[1].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
@@ -106,10 +149,19 @@ const ClinicalWorkTable = () => {
             </TableCell>
             <TableCell>Number of total sessions per academic year</TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={billableItems[2].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChange("asynchronous", Number(e.target.value))
+                }
+              />
             </TableCell>
-            <TableCell>0.0022</TableCell>
-            <TableCell></TableCell>
+            {/* <TableCell>0.0022</TableCell>
+            <TableCell></TableCell> */}
+            <TableCell>{billableItems[2].cFTEValue}</TableCell>
+            <TableCell>{billableItems[2].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>eConsult Session</TableCell>
@@ -122,17 +174,31 @@ const ClinicalWorkTable = () => {
             </TableCell>
             <TableCell>Number of total sessions per academic year</TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={billableItems[3].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChange("eConsult", Number(e.target.value))
+                }
+              />
             </TableCell>
-            <TableCell>0.0022</TableCell>
-            <TableCell></TableCell>
+            {/* <TableCell>0.0022</TableCell>
+            <TableCell></TableCell> */}
+            <TableCell>{billableItems[3].cFTEValue}</TableCell>
+            <TableCell>{billableItems[3].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={5} className="text-right font-bold">
               Total Billable cFTE
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={totalBillableCFTE.toFixed(4)}
+                readOnly
+              />
             </TableCell>
           </TableRow>
 
@@ -188,7 +254,14 @@ const ClinicalWorkTable = () => {
             <TableCell>1-hour meeting session</TableCell>
             <TableCell>Number of sessions per academic year</TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={billableItems[1].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChange("synchronous", Number(e.target.value))
+                }
+              />
             </TableCell>
             <TableCell>0.0005</TableCell>
             <TableCell></TableCell>
@@ -211,6 +284,11 @@ const ClinicalWorkTable = () => {
             </TableCell>
             <TableCell>
               <Input type="number" />
+              {/* <Input
+                type="number"
+                value={totalBillableCFTE.toFixed(4)}
+                readOnly
+              /> */}
             </TableCell>
           </TableRow>
           <TableRow>
