@@ -29,6 +29,11 @@ const ClinicalWorkTable = () => {
   const [totalBillableCFTE, setTotalBillableCFTE] = useState(0);
   const [totalNonBillableCFTE, setTotalNonBillableCFTE] = useState(0);
   const [totalOutpatientCFTE, setTotalOutpatientCFTE] = useState(0);
+  const [totalResearchFTE, setTotalResearchFTE] = useState(0);
+  const [totalAdminFTE, setTotalAdminFTE] = useState(0);
+
+  const [totalFacultyFTE, setTotalFacultyFTE] = useState(0);
+
   const handleMultiplierChange = (id, value) => {
     setBillableItems((prevItems) =>
       prevItems.map((item) =>
@@ -49,6 +54,14 @@ const ClinicalWorkTable = () => {
     );
   };
 
+  const handleResearchFTEChange = (value) => {
+    setTotalResearchFTE(value);
+  };
+
+  const handleAdminFTEChange = (value) => {
+    setTotalAdminFTE(value);
+  };
+
   useEffect(() => {
     const newTotalbillable = billableItems.reduce(
       (sum, item) => sum + item.total,
@@ -58,6 +71,7 @@ const ClinicalWorkTable = () => {
       (sum, item) => sum + item.total,
       0
     );
+    // const newTotal2 = billableItems + nonBillableItems;
     const newTotal = newTotalbillable + newTotalNonbillable;
     setTotalOutpatientCFTE(newTotal);
   }, [billableItems, nonBillableItems]);
@@ -74,6 +88,10 @@ const ClinicalWorkTable = () => {
     );
     setTotalNonBillableCFTE(newTotal);
   }, [nonBillableItems]);
+
+  useEffect(() => {
+    setTotalFacultyFTE(totalAdminFTE + totalResearchFTE + totalOutpatientCFTE);
+  }, [totalAdminFTE, totalResearchFTE, totalOutpatientCFTE]);
 
   return (
     <div className="w-full max-w-7xl container p-4">
@@ -120,10 +138,11 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={billableItems[0].multiplier}
-                onChange={(e) =>
-                  handleMultiplierChange("outpatient", Number(e.target.value))
-                }
+                onChange={(e) => {
+                  handleMultiplierChange("outpatient", Number(e.target.value));
+                }}
               />
             </TableCell>
             {/* <TableCell>0.0022</TableCell>
@@ -156,6 +175,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={billableItems[1].multiplier}
                 onChange={(e) =>
                   handleMultiplierChange("synchronous", Number(e.target.value))
@@ -191,6 +211,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={billableItems[2].multiplier}
                 onChange={(e) =>
                   handleMultiplierChange("asynchronous", Number(e.target.value))
@@ -216,6 +237,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={billableItems[3].multiplier}
                 onChange={(e) =>
                   handleMultiplierChange("eConsult", Number(e.target.value))
@@ -235,6 +257,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={totalBillableCFTE.toFixed(4)}
                 readOnly
               />
@@ -263,6 +286,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={nonBillableItems[0].multiplier}
                 onChange={(e) =>
                   handleMultiplierChangeoNonBillable(
@@ -292,6 +316,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={nonBillableItems[1].multiplier}
                 onChange={(e) =>
                   handleMultiplierChangeoNonBillable(
@@ -318,6 +343,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={nonBillableItems[2].multiplier}
                 onChange={(e) =>
                   handleMultiplierChangeoNonBillable(
@@ -342,6 +368,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={nonBillableItems[3].multiplier}
                 onChange={(e) =>
                   handleMultiplierChangeoNonBillable(
@@ -369,6 +396,7 @@ const ClinicalWorkTable = () => {
               /> */}
               <Input
                 type="number"
+                min="0"
                 value={totalNonBillableCFTE.toFixed(4)}
                 readOnly
               />
@@ -382,6 +410,7 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                min="0"
                 value={totalOutpatientCFTE.toFixed(4)}
                 readOnly
               />
@@ -392,7 +421,15 @@ const ClinicalWorkTable = () => {
               Total Research FTE
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                min="0"
+                value={totalResearchFTE}
+                onChange={(e) => {
+                  handleResearchFTEChange(Number(e.target.value));
+                }}
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -400,7 +437,15 @@ const ClinicalWorkTable = () => {
               Total Admin FTE
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                min="0"
+                value={totalAdminFTE}
+                onChange={(e) => {
+                  handleAdminFTEChange(Number(e.target.value));
+                }}
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -408,7 +453,14 @@ const ClinicalWorkTable = () => {
               TOTAL FACULTY FTE
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              {/* totalFacultyFTE */}
+              <Input
+                type="number"
+                min="0"
+                value={totalFacultyFTE.toFixed(5)}
+                readOnly
+              />
             </TableCell>
           </TableRow>
         </TableBody>
