@@ -19,8 +19,16 @@ const ClinicalWorkTable = () => {
     { id: "eConsult", multiplier: 0, cFTEValue: 0.0022, total: 0 },
   ]);
 
-  const [totalBillableCFTE, setTotalBillableCFTE] = useState(0);
+  const [nonBillableItems, setNonBillableItems] = useState([
+    { id: "outpatientFollowUp", multiplier: 0, cFTEValue: 0.001, total: 0 },
+    { id: "sectionClinicalService", multiplier: 0, cFTEValue: 0.005, total: 0 },
+    { id: "reqClinicalMeetings", multiplier: 0, cFTEValue: 0.0005, total: 0 },
+    { id: "supervising", multiplier: 0, cFTEValue: 0.003, total: 0 },
+  ]);
 
+  const [totalBillableCFTE, setTotalBillableCFTE] = useState(0);
+  const [totalNonBillableCFTE, setTotalNonBillableCFTE] = useState(0);
+  const [totalOutpatientCFTE, setTotalOutpatientCFTE] = useState(0);
   const handleMultiplierChange = (id, value) => {
     setBillableItems((prevItems) =>
       prevItems.map((item) =>
@@ -31,10 +39,41 @@ const ClinicalWorkTable = () => {
     );
   };
 
+  const handleMultiplierChangeoNonBillable = (id, value) => {
+    setNonBillableItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? { ...item, multiplier: value, total: value * item.cFTEValue }
+          : item
+      )
+    );
+  };
+
+  useEffect(() => {
+    const newTotalbillable = billableItems.reduce(
+      (sum, item) => sum + item.total,
+      0
+    );
+    const newTotalNonbillable = nonBillableItems.reduce(
+      (sum, item) => sum + item.total,
+      0
+    );
+    const newTotal = newTotalbillable + newTotalNonbillable;
+    setTotalOutpatientCFTE(newTotal);
+  }, [billableItems, nonBillableItems]);
+
   useEffect(() => {
     const newTotal = billableItems.reduce((sum, item) => sum + item.total, 0);
     setTotalBillableCFTE(newTotal);
   }, [billableItems]);
+
+  useEffect(() => {
+    const newTotal = nonBillableItems.reduce(
+      (sum, item) => sum + item.total,
+      0
+    );
+    setTotalNonBillableCFTE(newTotal);
+  }, [nonBillableItems]);
 
   return (
     <div className="w-full max-w-7xl container p-4">
@@ -221,10 +260,22 @@ const ClinicalWorkTable = () => {
             </TableCell>
             <TableCell>Number of sessions per academic year</TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={nonBillableItems[0].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChangeoNonBillable(
+                    "outpatientFollowUp",
+                    Number(e.target.value)
+                  )
+                }
+              />
             </TableCell>
-            <TableCell>0.001</TableCell>
-            <TableCell></TableCell>
+            {/* <TableCell>0.001</TableCell>
+            <TableCell></TableCell> */}
+            <TableCell>{nonBillableItems[0].cFTEValue}</TableCell>
+            <TableCell>{nonBillableItems[0].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
@@ -238,10 +289,20 @@ const ClinicalWorkTable = () => {
             <TableCell>One week (M-F, 7a-8p)</TableCell>
             <TableCell>Number of weeks per academic year</TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={nonBillableItems[1].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChangeoNonBillable(
+                    "sectionClinicalService",
+                    Number(e.target.value)
+                  )
+                }
+              />
             </TableCell>
-            <TableCell>0.005</TableCell>
-            <TableCell></TableCell>
+            <TableCell>{nonBillableItems[1].cFTEValue}</TableCell>
+            <TableCell>{nonBillableItems[1].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
@@ -257,14 +318,19 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
-                value={billableItems[1].multiplier}
+                value={nonBillableItems[2].multiplier}
                 onChange={(e) =>
-                  handleMultiplierChange("synchronous", Number(e.target.value))
+                  handleMultiplierChangeoNonBillable(
+                    "reqClinicalMeetings",
+                    Number(e.target.value)
+                  )
                 }
               />
             </TableCell>
-            <TableCell>0.0005</TableCell>
-            <TableCell></TableCell>
+            {/* <TableCell>0.0005</TableCell>
+            <TableCell></TableCell> */}
+            <TableCell>{nonBillableItems[2].cFTEValue}</TableCell>
+            <TableCell>{nonBillableItems[2].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Supervising Trainee/APP Clinics</TableCell>
@@ -273,22 +339,39 @@ const ClinicalWorkTable = () => {
             </TableCell>
             <TableCell>Number of sessions per academic year</TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={nonBillableItems[3].multiplier}
+                onChange={(e) =>
+                  handleMultiplierChangeoNonBillable(
+                    "supervising",
+                    Number(e.target.value)
+                  )
+                }
+              />
             </TableCell>
-            <TableCell>0.003</TableCell>
-            <TableCell></TableCell>
+            {/* <TableCell>0.003</TableCell>
+            <TableCell></TableCell> */}
+            <TableCell>{nonBillableItems[3].cFTEValue}</TableCell>
+            <TableCell>{nonBillableItems[3].total.toFixed(4)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={5} className="text-right font-bold">
               Total Non-Billable cFTE
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
               {/* <Input
                 type="number"
                 value={totalBillableCFTE.toFixed(4)}
                 readOnly
               /> */}
+              <Input
+                type="number"
+                value={totalNonBillableCFTE.toFixed(4)}
+                readOnly
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -296,7 +379,12 @@ const ClinicalWorkTable = () => {
               Total Outpatient Clinical FTE
             </TableCell>
             <TableCell>
-              <Input type="number" />
+              {/* <Input type="number" /> */}
+              <Input
+                type="number"
+                value={totalOutpatientCFTE.toFixed(4)}
+                readOnly
+              />
             </TableCell>
           </TableRow>
           <TableRow>
