@@ -446,7 +446,7 @@ const ClinicalWorkTable = () => {
               <Input
                 type="number"
                 min="0"
-                value={totalOutpatientCFTE.toFixed(4)}
+                value={totalOutpatientCFTE.toFixed(3)}
                 readOnly
               />
             </TableCell>
@@ -459,8 +459,11 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                step="0.01"
                 min="0"
+                max="1"
                 value={totalResearchFTE}
+                pattern="^\d+(\.\d{1,2})?$"
                 onChange={(e) => {
                   handleResearchFTEChange(Number(e.target.value));
                 }}
@@ -475,8 +478,11 @@ const ClinicalWorkTable = () => {
               {/* <Input type="number" /> */}
               <Input
                 type="number"
+                step="0.01"
                 min="0"
+                max="1"
                 value={totalAdminFTE}
+                pattern="^\d+(\.\d{1,2})?$"
                 onChange={(e) => {
                   handleAdminFTEChange(Number(e.target.value));
                 }}
@@ -493,7 +499,7 @@ const ClinicalWorkTable = () => {
               <Input
                 type="number"
                 min="0"
-                value={totalFacultyFTE.toFixed(5)}
+                value={totalFacultyFTE.toFixed(2)}
                 readOnly
               />
             </TableCell>
