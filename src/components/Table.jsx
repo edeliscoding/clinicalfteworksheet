@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import toast, { Toaster } from "react-hot-toast";
 
 const ClinicalWorkTable = () => {
   const [billableItems, setBillableItems] = useState([
@@ -33,6 +35,7 @@ const ClinicalWorkTable = () => {
   const [totalAdminFTE, setTotalAdminFTE] = useState(0);
 
   const [totalFacultyFTE, setTotalFacultyFTE] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleMultiplierChange = (id, value) => {
     setBillableItems((prevItems) =>
@@ -60,6 +63,14 @@ const ClinicalWorkTable = () => {
 
   const handleAdminFTEChange = (value) => {
     setTotalAdminFTE(value);
+  };
+
+  const handleValidation = (value) => {
+    if (value >= 1) {
+      setErrorMessage("Total Faculty FTE must be under 1");
+    } else {
+      setErrorMessage("");
+    }
   };
 
   useEffect(() => {
@@ -90,11 +101,35 @@ const ClinicalWorkTable = () => {
   }, [nonBillableItems]);
 
   useEffect(() => {
-    setTotalFacultyFTE(totalAdminFTE + totalResearchFTE + totalOutpatientCFTE);
+    const newTotal = totalAdminFTE + totalResearchFTE + totalOutpatientCFTE;
+    setTotalFacultyFTE(newTotal);
+    if (newTotal > 1) {
+      setErrorMessage("Total Faculty FTEmust be under 1");
+    } else {
+      setErrorMessage("");
+    }
   }, [totalAdminFTE, totalResearchFTE, totalOutpatientCFTE]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (totalFacultyFTE === 0) {
+      setErrorMessage("Total must be greater than 0 to submit");
+      toast.error("Total must be greater than 0 to submit");
+    } else if (totalFacultyFTE > 1) {
+      setErrorMessage("Total Faculty FTE cannot be greater than 1 to submit");
+      toast.error("Total Faculty FTE cannot be greater than 1 to submit");
+    } else {
+      // Proceed with form submission
+      setErrorMessage(""); // Clear any existing error message
+      toast.success("Successfully Submitted");
+      console.log("Form submitted successfully");
+      // Add your form submission logic here
+    }
+  };
+
   return (
-    <div className="w-full max-w-7xl container p-4">
+    // <div className="w-full max-w-7xl container p-4">
+    <form onSubmit={handleSubmit} className="w-full max-w-7xl container p-4">
       <div className="text-center mb-4 font-bold underline text-2xl">
         Doe, John Smith
       </div>
@@ -465,7 +500,22 @@ const ClinicalWorkTable = () => {
           </TableRow>
         </TableBody>
       </Table>
-    </div>
+      {/* </div> */}
+      {errorMessage && (
+        <Alert variant="destructive" className="mt-4">
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
+      )}
+      <div className="mt-4">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4"
+          disabled={totalFacultyFTE > 1}
+        >
+          Submit
+        </button>
+      </div>
+    </form>
   );
 };
 
